@@ -46,5 +46,12 @@ namespace Shared.Services
         /// <param name="characterId">削除するキャラクターのID</param>
         /// <returns>削除に成功した場合はtrue、失敗した場合はfalse</returns>
         UnaryResult<bool> DeleteCharacter(int characterId);
+
+        /// <summary>
+        /// 現在のプレイヤーが所有するすべてのキャラクターを取得する
+        /// プレイヤーIDはリクエストコンテキストから自動取得される
+        /// </summary>
+        /// <returns>現在のプレイヤーのキャラクターリスト</returns>
+        UnaryResult<List<CharacterData>> GetMyCharacters();
     }
 }

@@ -22,12 +22,24 @@ class Program
         }
 
         ICharacterService characterClient = MagicOnionClient.Create<ICharacterService>(channel);
-        // 現在のキャラクターをすべて取得
-        var characters = await characterClient.GetPlayerCharacters(1);
-        // キャラクター作成
+        
+        // 新機能のテスト: 引数なしでキャラクター一括取得
+        Console.WriteLine("=== Testing GetMyCharacters() ===");
+        var myCharacters = await characterClient.GetMyCharacters();
+        Console.WriteLine($"Found {myCharacters.Count} characters:");
+        foreach (var character in myCharacters)
+        {
+            Console.WriteLine($"- {character.Name} (Level {character.Level})");
+        }
 
-
-
+        // 比較: 従来の方法でキャラクター取得
+        Console.WriteLine("\n=== Testing GetPlayerCharacters(1) ===");
+        var playerCharacters = await characterClient.GetPlayerCharacters(1);
+        Console.WriteLine($"Found {playerCharacters.Count} characters:");
+        foreach (var character in playerCharacters)
+        {
+            Console.WriteLine($"- {character.Name} (Level {character.Level})");
+        }
     }
     static async Task GetPlayer(IPlayerService client, int playerId)
     {

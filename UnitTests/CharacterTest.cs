@@ -180,6 +180,46 @@ namespace UnitTests
             });
         }
 
+        [Fact]
+        public async Task GetPlayerCharacters_ShouldReturnEmptyList_WhenPlayerHasNoCharacters()
+        {
+            var characters = await _characterUseCase.GetPlayerCharactersAsync(999);
+
+            Assert.NotNull(characters);
+            Assert.Empty(characters);
+        }
+
+        [Fact]
+        public async Task GetPlayerCharacters_ShouldReturnCharactersInCreationOrder()
+        {
+            var player = new PlayerEntity
+            {
+                UserId = 1,
+                UserName = "TestPlayer",
+                Money = 1000
+            };
+            await _playerRepository.CreatePlayerAsync(player);
+
+            // 複数のキャラクターを異なる時間に作成
+            var character1 = await _characterUseCase.CreateCharacterAsync(player.UserId, "FirstCharacter");
+            
+            // わずかに時間をずらす
+            await Task.Delay(1);
+            
+            var character2 = await _characterUseCase.CreateCharacterAsync(player.UserId, "SecondCharacter");
+            
+            await Task.Delay(1);
+            
+            var character3 = await _characterUseCase.CreateCharacterAsync(player.UserId, "ThirdCharacter");
+
+            var retrievedCharacters = await _characterUseCase.GetPlayerCharactersAsync(player.UserId);
+
+            Assert.Equal(3, retrievedCharacters.Count);
+            Assert.Equal("FirstCharacter", retrievedCharacters[0].Name);
+            Assert.Equal("SecondCharacter", retrievedCharacters[1].Name);
+            Assert.Equal("ThirdCharacter", retrievedCharacters[2].Name);
+        }
+
         public void Dispose()
         {
             _context.Dispose();

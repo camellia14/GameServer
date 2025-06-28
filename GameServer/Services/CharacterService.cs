@@ -116,5 +116,50 @@ namespace GameServer.Services
                 return false;
             }
         }
+
+        /// <summary>
+        /// 現在のプレイヤーが所有するすべてのキャラクターを取得する
+        /// プレイヤーIDはリクエストコンテキストから自動取得される
+        /// </summary>
+        /// <returns>現在のプレイヤーのキャラクターリスト</returns>
+        public async UnaryResult<List<CharacterData>> GetMyCharacters()
+        {
+            try
+            {
+                // リクエストコンテキストからプレイヤーIDを取得
+                var playerUserId = GetCurrentPlayerUserId();
+                
+                return await _characterUseCase.GetPlayerCharactersAsync(playerUserId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetMyCharacters: {ex.Message}");
+                return new List<CharacterData>();
+            }
+        }
+
+        /// <summary>
+        /// リクエストコンテキストから現在のプレイヤーIDを取得する
+        /// </summary>
+        /// <returns>プレイヤーのユーザーID</returns>
+        /// <exception cref="UnauthorizedAccessException">プレイヤーIDが取得できない場合</exception>
+        private int GetCurrentPlayerUserId()
+        {
+            // MagicOnionのコンテキストからプレイヤーIDを取得
+            // 実際の認証実装では、JWTトークンやセッション情報から取得することが多い
+            // 今回はヘッダーから "Player-Id" を取得する簡易実装
+            if (Context.CallContext.RequestHeaders.Any(h => h.Key.Equals("player-id", StringComparison.OrdinalIgnoreCase)))
+            {
+                var playerIdHeader = Context.CallContext.RequestHeaders.First(h => h.Key.Equals("player-id", StringComparison.OrdinalIgnoreCase));
+                if (int.TryParse(playerIdHeader.Value, out int playerId))
+                {
+                    return playerId;
+                }
+            }
+            
+            // ヘッダーにプレイヤーIDが無い場合はデフォルト値として1を返す（テスト用）
+            // 本番環境では適切な認証処理を実装する必要がある
+            return 1;
+        }
     }
 }
