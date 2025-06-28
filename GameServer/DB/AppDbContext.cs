@@ -11,5 +11,8 @@ namespace GameServer.DB
         }
 
         public DbSet<PlayerEntity> Players { get; set; }
+        public DbSet<CharacterEntity> Characters { get; set; }
+        public DbSet<ItemEntity> Items { get; set; }
+        public DbSet<UserRoleEntity> UserRoles { get; set; }
     }
 }

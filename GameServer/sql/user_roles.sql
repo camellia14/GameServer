@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS UserRoles (
+    UserId INT PRIMARY KEY,
+    Role INT NOT NULL DEFAULT 0,
+    Status INT NOT NULL DEFAULT 0,
+    SuspendedByUserId INT NULL,
+    SuspendedAt DATETIME NULL,
+    SuspensionReason TEXT NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserId) REFERENCES Players(UserId) ON DELETE CASCADE,
+    FOREIGN KEY (SuspendedByUserId) REFERENCES Players(UserId) ON DELETE SET NULL,
+    INDEX idx_role (Role),
+    INDEX idx_status (Status),
+    INDEX idx_suspended_by (SuspendedByUserId)
+);

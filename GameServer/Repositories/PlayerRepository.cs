@@ -13,10 +13,23 @@ namespace GameServer.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<PlayerEntity?> GetPlayerAsync(int userId)
+        {
+            return await _dbContext.Players.FirstOrDefaultAsync(p => p.UserId == userId);
+        }
+
         public async Task<PlayerEntity?> GetByIdAsync(int userId)
         {
             return await _dbContext.Players.FirstOrDefaultAsync(p => p.UserId == userId);
         }
+
+        public async Task<PlayerEntity> CreatePlayerAsync(PlayerEntity player)
+        {
+            _dbContext.Players.Add(player);
+            await _dbContext.SaveChangesAsync();
+            return player;
+        }
+
         public async Task Create(PlayerEntity player)
         {
             _dbContext.Players.Add(player);

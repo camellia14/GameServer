@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using GameServer.Repositories.Interfaces;
 using GameServer.Repositories;
+using GameServer.UseCases;
 
 class Program
 {
@@ -40,6 +41,12 @@ class Program
             // リポジトリの依存関係を登録
             builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
             builder.Services.AddScoped<IItemRepository, ItemRepository>();
+            builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
+            builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+
+            // ユースケースの依存関係を登録
+            builder.Services.AddScoped<CharacterUseCase>();
+            builder.Services.AddScoped<AdminUseCase>();
 
             Console.WriteLine("builder.Build");
             builder.WebHost.UseUrls("http://0.0.0.0:5000");

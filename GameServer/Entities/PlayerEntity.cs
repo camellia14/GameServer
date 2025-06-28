@@ -20,6 +20,13 @@ namespace GameServer.Entities
             _inventory = new Dictionary<int, int>();
         }
 
+        public PlayerEntity()
+        {
+            UserName = string.Empty;
+            Money = 1000;
+            _inventory = new Dictionary<int, int>();
+        }
+
         public bool CanBuyItem(int price, int amount)
         {
             return Money >= price * amount;
