@@ -20,6 +20,14 @@ class Program
         {
             await GetPlayer(client, i);
         }
+
+        ICharacterService characterClient = MagicOnionClient.Create<ICharacterService>(channel);
+        // 現在のキャラクターをすべて取得
+        var characters = await characterClient.GetPlayerCharacters(1);
+        // キャラクター作成
+
+
+
     }
     static async Task GetPlayer(IPlayerService client, int playerId)
     {
