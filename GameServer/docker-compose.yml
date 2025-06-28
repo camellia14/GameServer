@@ -1,0 +1,40 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: gameserver-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=YourStrong@Passw0rd
+      - MYSQL_DATABASE=GameServer
+      - MYSQL_USER=gameserver
+      - MYSQL_PASSWORD=YourStrong@Passw0rd
+    ports:
+      - "13306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - gameserver-network
+
+  gameserver:
+    build:
+      context: ../
+      dockerfile: GameServer/Dockerfile
+    container_name: gameserver-app
+    depends_on:
+      - mysql
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=GameServer;User=gameserver;Password=YourStrong@Passw0rd;
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+      - HTTP_PORTS=
+      - HTTPS_PORTS=
+    networks:
+      - gameserver-network
+
+volumes:
+  mysql_data:
+
+networks:
+  gameserver-network:
+    driver: bridge

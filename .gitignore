@@ -1,0 +1,12 @@
+GameServer/[Bb]in/*
+GameClient/[Bb]in/*
+UnitTests/[Bb]in/*
+Shared/[Bb]in/*
+GameServer/[Oo]bj/*
+GameClient/[Oo]bj/*
+UnitTests/[Oo]bj/*
+Shared/[Oo]bj/*
+
+*.csproj
+*.sln
+*.tmp
