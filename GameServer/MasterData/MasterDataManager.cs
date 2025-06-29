@@ -15,11 +15,17 @@ namespace GameServer.MasterData
         public ItemMaster ItemMaster { get; private set; }
 
         /// <summary>
+        /// バフマスターデータ
+        /// </summary>
+        public BuffMaster BuffMaster { get; private set; }
+
+        /// <summary>
         /// MasterDataManagerのプライベートコンストラクタ
         /// </summary>
         private MasterDataManager()
         {
             ItemMaster = new ItemMaster();
+            BuffMaster = new BuffMaster();
         }
 
         /// <summary>
@@ -55,6 +61,7 @@ namespace GameServer.MasterData
         public void Reset()
         {
             ItemMaster = new ItemMaster();
+            BuffMaster = new BuffMaster();
         }
 
         /// <summary>

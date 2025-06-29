@@ -16,5 +16,8 @@ namespace GameServer.DB
         public DbSet<UserRoleEntity> UserRoles { get; set; }
         public DbSet<StackItemEntity> StackItems { get; set; }
         public DbSet<UniqueItemEntity> UniqueItems { get; set; }
+        public DbSet<BuffEntity> Buffs { get; set; }
+        public DbSet<AccountEntity> Accounts { get; set; }
+        public DbSet<ProfileEntity> Profiles { get; set; }
     }
 }
