@@ -20,5 +20,6 @@ namespace GameServer.DB
         public DbSet<AccountEntity> Accounts { get; set; }
         public DbSet<ProfileEntity> Profiles { get; set; }
         public DbSet<QuestEntity> Quests { get; set; }
+        public DbSet<FriendEntity> Friends { get; set; }
     }
 }
